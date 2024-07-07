@@ -16,6 +16,10 @@ function UpdateAlbum (){
                     <input type="text" placeholder='Enter Album' className='form-control'/>
                 </div>
                 <div className='mb-2'>
+                    <label htmlFor="">Song</label>
+                    <input type="text" placeholder='Enter Song' className='form-control'/>
+                </div>
+                <div className='mb-2'>
                     <label htmlFor="">Length</label>
                     <input type="text" placeholder='Enter Length' className='form-control'/>
                 </div>
