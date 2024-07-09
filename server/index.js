@@ -40,6 +40,26 @@ app.post('/createSong', (req, res) => {
     });
 });
 
+app.put('/updateSong/:id',(req,res)=>{
+    const id = req.params.id;
+    SongModel.findByIdAndUpdate({_id: id},{
+        name: req.body.name,
+        album: req.body.album,
+        song: req.body.song,
+        length: req.body.length,
+        description: req.body.description})
+    .then(song => res.json(song))
+    .catch(err => res.json(err))
+})
+
+
+app.get('/getSong/:id', (req,res)=>{
+    const id = req.params.id;
+    SongModel.findById({_id:id})
+    .then(song => res.json(song))
+    .catch(err => res.json(err))
+})
+
 app.listen(3001, () => {
   console.log('Server is running on port 3001');
 });

@@ -18,7 +18,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Albums/>}></Route>
           <Route path='/create' element={<CreateAlbum/>}></Route>
-          <Route path='/update' element={<UpdateAlbum/>}></Route>
+          <Route path='/update/:id' element={<UpdateAlbum/>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
