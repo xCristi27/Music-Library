@@ -52,6 +52,13 @@ app.put('/updateSong/:id',(req,res)=>{
     .catch(err => res.json(err))
 })
 
+app.delete('/deleteAlbum/:id', (req, res) =>{
+  const id = req.params.id;
+  SongModel.findByIdAndDelete({_id:id})
+  .then(res => res.json(res))
+  .catch(err => res.json(err))
+})
+
 
 app.get('/getSong/:id', (req,res)=>{
     const id = req.params.id;

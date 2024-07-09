@@ -39,8 +39,9 @@ function CreateAlbum() {
           </div>
           <div className="mb-2">
             <label htmlFor="">Length</label>
-            <input type="number" placeholder="Enter Length" className="form-control" onChange={(e) => setLength(e.target.value)} />
-          </div>
+            <input type="number" step="0.1" placeholder="Enter Length" className="form-control" onChange={(e) => setLength(parseFloat(e.target.value))} />
+            </div>
+
           <div className="mb-2">
             <label htmlFor="">Description</label>
             <input type="text" placeholder="Enter Description" className="form-control" onChange={(e) => setDescription(e.target.value)} />
