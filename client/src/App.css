@@ -4,6 +4,7 @@
     margin-top: 10px; /* Adaugă un mic spațiu deasupra tabelului */
   }
 
+  /*Background image style*/
   .custom-background {
     background-image: url('BackGr.jpg'); /* Calea către imagine */
     background-size: cover;

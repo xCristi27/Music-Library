@@ -1,72 +1,88 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/jsx-key */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-//Button Add + go to create album interface
-function Albums (){
-    const [Albums, setAlbums] = useState([])
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios'; // Import Axios for making HTTP requests to backend server
 
-    useEffect(() => {
-        axios.get('http://localhost:3001')
-        .then(result => setAlbums(result.data) )
-        .catch(err => console.log(err))
-    })
+function Albums() {
+  const [albums, setAlbums] = useState([]); // State for holding all albums
+  const [filteredAlbums, setFilteredAlbums] = useState([]); // State for holding filtered albums (search results)
+  const [searchQuery, setSearchQuery] = useState(''); // State for holding text entered in search input
 
-    const handleDelete = (id) =>{
-        axios.delete('http://localhost:3001/deleteAlbum/'+id)
-        .then(res => {console.log(res)
-            window.location.reload()
-        })
-        .catch(errr => console.log(errr))
-    }
-    
-    
+  useEffect(() => {
+    axios.get('http://localhost:3001') // When component mounts, make a GET request to backend server to fetch all songs
+      .then(result => {
+        setAlbums(result.data); // Update state with albums fetched from server response
+        setFilteredAlbums(result.data); // Initialize filteredAlbums with all albums (before any search)
+      })
+      .catch(err => console.log(err)); // Handle errors by logging them to console
+  }, []);
 
-    return(
-        <div className="custom-background">
-             <div className="w-50 rounded p-3">
-                <h1 className="text-center mb-4">Music Library</h1>
-                <Link to="/create" className='btn btn-success'>Add +</Link> 
-                <div className="table-container">
-                <table className='table'>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Album</th>
-                            <th>Song</th>
-                            <th>Length</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        { 
-                            //Getting elements for each collumn of the table
-                            Albums.map((Album) => { 
-                               return <tr>
-                                    <td>{Album.name}</td>
-                                    <td>{Album.album}</td>
-                                    <td>{Album.song}</td>
-                                    <td>{Album.length}</td>
-                                    <td>{Album.description}</td>
-                                    <td>
-                                    <Link to={`/update/${Album._id}`} className="btn btn-success">Update</Link>
-                                        <button className='btn btn-danger'
-                                         onClick={(e) => handleDelete(Album._id)}>Delete</button>
-                                    </td>
-                                </tr>
-                            })
-                        }
-                    </tbody>
-            </table>
-            </div>
-            </div>
+  const handleDelete = (id) => {
+    axios.delete(`http://localhost:3001/deleteAlbum/${id}`) // Function for deleting a song based on ID
+      .then(res => {
+        console.log(res); // Log the response received (usually a success message)
+        window.location.reload(); // Reload the page to reflect the song deletion in user interface
+      })
+      .catch(err => console.log(err)); // Handle errors by logging them to console
+  }
+
+  const handleSearch = (event) => {
+    const query = event.target.value; // Get the value entered in the search input
+    setSearchQuery(query); // Update state with the searched text
+    const filtered = albums.filter(album =>
+      album.song.toLowerCase().includes(query.toLowerCase()) // Filter albums by song title, ignoring case differences
+    );
+    setFilteredAlbums(filtered); // Update state with search results (filtered albums)
+  }
+  return (
+    <div className="custom-background">
+      <div className="w-50 rounded p-3">
+        <h1 className="text-center mb-4">Music Library</h1>
+        <Link to="/create" className='btn btn-success'>Add +</Link> 
+        <input
+          type="text"
+          className="form-control my-3"
+          placeholder="Search by song title..."
+          value={searchQuery}
+          onChange={handleSearch} // Search input field for filtering albums by song title
+        />
+        <div className="table-container"> {/* Container for the table */}
+          <table className='table'> {/* Table element with Bootstrap table styles */}
+            <thead>  {/* Table header */}
+              <tr> {/* Columns for each header */}
+                <th>Name</th>
+                <th>Album</th>
+                <th>Song</th>
+                <th>Length</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                filteredAlbums.map(album => (
+                     // Mapping through filteredAlbums to display each album as a row in the table
+                  <tr key={album._id}>
+                    {/* Display each element*/}
+                    <td>{album.name}</td>
+                    <td>{album.album}</td>
+                    <td>{album.song}</td>
+                    <td>{album.length}</td>
+                    <td>{album.description}</td>
+                    <td>
+                      <Link to={`/update/${album._id}`} className="btn btn-success">Update</Link> {/* Link to navigate to the create page */}
+                      <button className='btn btn-danger'
+                        onClick={() => handleDelete(album._id)}>Delete</button> {/* Button to delete a song */}
+                    </td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
         </div>
-    )
-
-    
+      </div>
+    </div>
+  );
 }
 
 export default Albums;

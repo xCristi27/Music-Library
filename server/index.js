@@ -1,21 +1,14 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require('express'); // Import Express module to create and manage HTTP server
+const mongoose = require('mongoose'); // Import Mongoose module for interacting with MongoDB
+const cors = require('cors'); // Middleware for handling CORS
 
-const app = express();
-app.use(cors());
-app.use(express.json());
+const app = express(); // Create an Express application
+app.use(cors()); // Use CORS middleware to allow cross-origin requests
+app.use(express.json()); // Middleware to parse request bodies as JSON
 
 mongoose.connect('mongodb+srv://admin:2wNfeD5X6mJBGxqd@musiclibrary.a3zz7ca.mongodb.net/')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Could not connect to MongoDB', err));
-
-app.get('/', (req, res)=>
-{
-    SongModel.find({})
-    .then(song => res.json(song))
-    .catch(err => res.json(err))
-})
+  .then(() => console.log('Connected to MongoDB')) // Connect to MongoDB
+  .catch(err => console.error('Could not connect to MongoDB', err)); // Handle error if connection fails
 
 const SongSchema = new mongoose.Schema({
   name: String,
@@ -23,58 +16,50 @@ const SongSchema = new mongoose.Schema({
   song: String,
   length: Number,
   description: String
-});
+}); // Define schema for the 'songs' collection in MongoDB
 
-const SongModel = mongoose.model('Song', SongSchema);
+const SongModel = mongoose.model('Song', SongSchema); // Create Mongoose model for operations on 'songs' collection
+
+app.get('/', (req, res) => {
+  SongModel.find({}) // GET endpoint to fetch all songs from MongoDB collection
+    .then(song => res.json(song)) // Return fetched songs as JSON response
+    .catch(err => res.json(err)); // Handle errors and return them as JSON response
+});
 
 app.post('/createSong', (req, res) => {
-  console.log('Received data:', req.body);  // Log data received from frontend
-  SongModel.create(req.body)
-    .then(song => {
-      console.log('Song created:', song);  // Log created song
-      res.json(song);
-    })
-    .catch(err => {
-      console.error('Error creating song:', err);  // Log any error
-      res.status(500).json(err);
-    });
+  SongModel.create(req.body) // POST endpoint to create a new song based on data received in request body
+    .then(song => res.json(song)) // Return created song as JSON response
+    .catch(err => res.status(500).json(err)); // Handle errors and return them with a 500 status code
 });
 
-app.put('/updateSong/:id',(req,res)=>{
-    const id = req.params.id;
-    SongModel.findByIdAndUpdate({_id: id},{
-        name: req.body.name,
-        album: req.body.album,
-        song: req.body.song,
-        length: req.body.length,
-        description: req.body.description})
-    .then(song => res.json(song))
-    .catch(err => res.json(err))
-})
-
-app.delete('/deleteAlbum/:id', (req, res) =>{
+app.put('/updateSong/:id', (req, res) => {
   const id = req.params.id;
-  SongModel.findByIdAndDelete({_id:id})
-  .then(res => res.json(res))
-  .catch(err => res.json(err))
-})
-
-// New route for searching albums by title
-app.get('/searchAlbums', (req, res) => {
-  const searchText = req.query.text; // Retrieve search text from query parameter
-  SongModel.find({ album: { $regex: searchText, $options: 'i' } })
-    .then(albums => res.json(albums))
-    .catch(err => res.status(500).json(err));
+  SongModel.findByIdAndUpdate({ _id: id }, req.body) // PUT endpoint to update an existing song based on ID
+    .then(song => res.json(song)) // Return updated song as JSON response
+    .catch(err => res.json(err)); // Handle errors and return them as JSON response
 });
 
+app.delete('/deleteAlbum/:id', (req, res) => {
+  const id = req.params.id;
+  SongModel.findByIdAndDelete({ _id: id }) // DELETE endpoint to delete a song based on ID
+    .then(res => res.json(res)) // Return delete response as JSON
+    .catch(err => res.json(err)); // Handle errors and return them as JSON response
+});
 
-app.get('/getSong/:id', (req,res)=>{
-    const id = req.params.id;
-    SongModel.findById({_id:id})
-    .then(song => res.json(song))
-    .catch(err => res.json(err))
-})
+app.get('/searchAlbums', (req, res) => {
+  const searchText = req.query.text; // GET endpoint to search albums by title
+  SongModel.find({ album: { $regex: searchText, $options: 'i' } }) // Use regex to search albums containing the specified text, case-insensitive
+    .then(albums => res.json(albums)) // Return search results as JSON response
+    .catch(err => res.status(500).json(err)); // Handle errors and return them with a 500 status code
+});
+
+app.get('/getSong/:id', (req, res) => {
+  const id = req.params.id;
+  SongModel.findById({ _id: id }) // GET endpoint to get a specific song by ID
+    .then(song => res.json(song)) // Return found song as JSON response
+    .catch(err => res.json(err)); // Handle errors and return them as JSON response
+});
 
 app.listen(3001, () => {
-  console.log('Server is running on port 3001');
+  console.log('Server is running on port 3001'); // Listen on port 3001 and log a message when server starts
 });
