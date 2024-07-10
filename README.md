@@ -1,14 +1,13 @@
-INSTRUCTIONS TO RUN THE PROJECT LOCALY
+INSTRUCTIONS TO RUN THE PROJECT LOCALLY
 
-1. Install Visual Studio Code
-2. Install from Extensions (Visual Studio) MongoDB
-3. Connect your DB from MongoDB
-4. Clone the repository
-5. Open 1 terminal, change folder to client and run command npm install
-6. In the same terminal run command: npm install bootstrap axios react-router-dom
-7. Open 2 terminals, one for Server, one for Client
-8. In first terminal change to the folder where Server is and run command npm start
-9. In second terminal change to the folder where Client is and run command npm run dev
-10. From MongoDB you can create a new playground. Open JsonToMongoDB.js (which is provided in repository) copy the content and paste in the playground.Run the content and will create the MongoDB.
-11. Now the project work and can perfom all CRUD operations to the table which will always update the MongoDB.
-
+Install Visual Studio Code.
+Install MongoDB extension from Visual Studio Extensions.
+Connect your MongoDB database.
+Clone the repository.
+Open a terminal, navigate to the client folder, and run the command npm install.
+In the same terminal, run the command npm install bootstrap axios react-router-dom.
+Open two terminals: one for the server and one for the client.
+In the first terminal, navigate to the server folder and run the command npm start.
+In the second terminal, navigate to the client folder and run the command npm run dev.
+In MongoDB, you can create a new playground. Open JsonToMongoDB.js (provided in the repository), copy its content, and paste it into the playground. Run the content to create the MongoDB.
+Now the project is operational and capable of performing all CRUD operations on the table, which will continuously update the MongoDB.
