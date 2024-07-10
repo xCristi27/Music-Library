@@ -1,5 +1,4 @@
 INSTRUCTIONS TO RUN THE PROJECT LOCALLY
-
 Install Visual Studio Code.
 Install MongoDB extension from Visual Studio Extensions.
 Connect your MongoDB database.
