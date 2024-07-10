@@ -59,6 +59,14 @@ app.delete('/deleteAlbum/:id', (req, res) =>{
   .catch(err => res.json(err))
 })
 
+// New route for searching albums by title
+app.get('/searchAlbums', (req, res) => {
+  const searchText = req.query.text; // Retrieve search text from query parameter
+  SongModel.find({ album: { $regex: searchText, $options: 'i' } })
+    .then(albums => res.json(albums))
+    .catch(err => res.status(500).json(err));
+});
+
 
 app.get('/getSong/:id', (req,res)=>{
     const id = req.params.id;

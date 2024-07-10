@@ -1,0 +1,22 @@
+.table-container {
+    height: 800px; /* Setează înălțimea containerului */
+    overflow-y: scroll; /* Permite derularea pe axa verticală */
+    margin-top: 10px; /* Adaugă un mic spațiu deasupra tabelului */
+  }
+
+  .custom-background {
+    background-image: url('BackGr.jpg'); /* Calea către imagine */
+    background-size: cover;
+    background-position: center;
+    height: 100vh; /* Înălțimea va fi pe întreaga înălțime a ecranului */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  
+  .custom-background .w-50 {
+    background-color: rgba(255, 255, 255, 0.8); /* Culoare alb semi-transparentă */
+    border-radius: 10px; /* Rotunjirea marginilor */
+    padding: 20px; /* Spațierea interioară */
+  }

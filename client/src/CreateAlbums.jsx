@@ -21,8 +21,8 @@ function CreateAlbum() {
   };
 
   return (
-    <div className="d-flex vh-100 bg-primary justify-content-center align-items-center">
-      <div className="w-50 bg-white rounded p-3">
+    <div className="custom-background">
+       <div className="w-50 rounded p-3">
         <form onSubmit={submit}>
           <h2>Add Song</h2>
           <div className="mb-2">

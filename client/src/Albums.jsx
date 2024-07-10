@@ -21,11 +21,15 @@ function Albums (){
         })
         .catch(errr => console.log(errr))
     }
+    
+    
 
     return(
-        <div className ="d-flex vh-100  bg-primary justify-content-center align-items-center">
-            <div className='w-50 bg-white rounded p-3'>
+        <div className="custom-background">
+             <div className="w-50 rounded p-3">
+                <h1 className="text-center mb-4">Music Library</h1>
                 <Link to="/create" className='btn btn-success'>Add +</Link> 
+                <div className="table-container">
                 <table className='table'>
                     <thead>
                         <tr>
@@ -58,8 +62,11 @@ function Albums (){
                     </tbody>
             </table>
             </div>
+            </div>
         </div>
     )
+
+    
 }
 
 export default Albums;
